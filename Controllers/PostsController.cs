@@ -29,16 +29,16 @@ namespace api.Controllers
         }
 
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("getPostById")]
+        public async Task<IActionResult> Get([FromQuery] int id)
         {
             return Ok(await _postRepository.GetPostById(id));
         }
 
-        [HttpGet("PostByUser/{userId}")]
-        public async Task<IActionResult> GetPostByUser(int userId)
+        [HttpGet("getPostByUser")]
+        public async Task<IActionResult> GetPostByUser([FromQuery] int id)
         {
-            return Ok(await _postRepository.GetPostsByUser(userId));
+            return Ok(await _postRepository.GetPostsByUser(id));
         }
 
         [HttpGet("getPostPerPage")]
@@ -53,6 +53,12 @@ namespace api.Controllers
             var skip = (postPage.Page) * postPage.Limit;
 
             return Ok(await _postRepository.GetPostPerPage(postPage.Page, postPage.Limit));
+        }
+
+        [HttpGet("getPostCount")]
+        public  int GetPostCount()
+        {
+            return  _postRepository.GetPostCount();
         }
 
     }

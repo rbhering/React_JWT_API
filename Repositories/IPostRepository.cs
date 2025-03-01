@@ -10,5 +10,6 @@ namespace api.Repositories
         Task<Post> GetPostById(int id);
         Task<IEnumerable<Post>> GetPostsByUser(int userId);
         Task<IEnumerable<Post>> GetPostPerPage(int page, int limit);
+        int GetPostCount();
     }
 }

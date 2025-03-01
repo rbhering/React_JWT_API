@@ -27,6 +27,11 @@ namespace api.Repositories
             return await _context.Post.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
+        public int GetPostCount()
+        {
+            return _context.Post.Count();
+        }
+
         public async Task<IEnumerable<Post>> GetPostPerPage(int page, int limit)
         {
             if (page == 0)
