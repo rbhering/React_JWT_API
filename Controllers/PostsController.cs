@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using api.Models.Dtos;
 using api.Models.Entities;
 using api.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -40,6 +41,19 @@ namespace api.Controllers
             return Ok(await _postRepository.GetPostsByUser(userId));
         }
 
+        [HttpGet("getPostPerPage")]
+        public async Task<IActionResult> GetPostPerPage([FromQuery] PostPerPage postPage)
+        {
+            if (postPage.Page == 0)
+                postPage.Page = 1;
+
+            if (postPage.Limit == 0)
+                postPage.Limit = int.MaxValue;
+
+            var skip = (postPage.Page) * postPage.Limit;
+
+            return Ok(await _postRepository.GetPostPerPage(postPage.Page, postPage.Limit));
+        }
 
     }
 }

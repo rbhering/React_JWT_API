@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
@@ -24,6 +25,22 @@ namespace api.Repositories
         public async Task<Post> GetPostById(int id)
         {
             return await _context.Post.Where(x => x.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Post>> GetPostPerPage(int page, int limit)
+        {
+            if (page == 0)
+                page = 1;
+
+            if (limit == 0)
+                limit = int.MaxValue;
+
+            var skip = (page - 1) * limit;
+
+            return await _context.Post
+                .Skip(skip)
+                .Take(limit)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Post>> GetPostsByUser(int userId)
